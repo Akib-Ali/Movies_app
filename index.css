@@ -1,0 +1,17 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+
+#navbar{
+    background-color: burlywood;
+    height: 50px;
+    display: flex;
+}
+
+#signin{
+    margin-left: 1000px;
+    font-size: 20px;
+    margin-top: 10px;
+    text-decoration: none;
+}

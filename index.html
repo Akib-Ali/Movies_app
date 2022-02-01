@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<!--link tag start-->
+
+
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background-color: rgb(3, 3, 48);
+        }
+
+        .navbar{
+            display: flex;
+            height: 70px;
+            background-color:  rgb(3, 3, 48);
+            
+        }
+
+        .item{
+            margin-left: 30px;
+            margin-top: 20px;
+            height: 70px;
+            font-size: 20px;
+            color: white;
+        
+        }
+
+        .item img{
+            height: 30px;
+            width: 100px;
+            
+        }
+
+        #kids{
+            color: yellow;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .rightitem{
+            margin-top: 20px;
+            margin-left: 300px;
+            display: flex;
+        }
+
+
+        .Recommendate{
+            color: green;
+            font-size: 25px;
+        }
+          
+
+        #movie_div{
+
+            height: 400px;
+            width: 400px;
+            margin-left: 760px;
+            margin-top: 10px;
+            
+        }
+
+        img{
+            height: 200px;
+            width: 500px;
+        }
+
+        .Title{
+            color:white ;
+            font-size: 20px;
+        }
+
+        input{
+            width: 300px;
+            height: 30px;
+        
+        }
+
+        button{
+            width: 150px;
+            height: 30px;
+            background-color:rgb(18, 149, 206);
+            border-radius: 10px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        #login{
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        
+
+        input[type="text"]{
+            background-color: rgb(3, 3, 48) ;
+            color: white;
+            font-size: 25px;
+        
+        }
+
+
+
+        #container_movie{
+
+/* height: 400px;
+ width: 1100px;    
+ margin: auto;        */
+ margin: auto;
+ margin-top: 10px;
+ height:900px ;
+ width:90% ;
+
+ display: grid;
+ grid-template-rows: repeat(3,280px);
+ grid-template-columns: repeat(3,390px);
+ grid-gap: 30px;
+/* border: 2px solid red;    */
+ 
+
+}
+
+.maindiv{
+
+/*background-color:lightgoldenrodyellow;   */
+border-radius: 5px;
+transition: transform .3s;
+
+}
+
+
+.maindiv:hover{
+    transform: scale(1.2);
+}
+
+
+
+.maindiv img{
+
+ height: 200px;
+ width: 320px;
+ border-radius: 10px;
+}
+
+.hotstarheading{
+ text-align: center;
+ margin-top: 30px;
+ font-size: 35px;
+ font-weight: bold;
+}
+
+
+.hitmovies{
+
+    color: white;
+    margin-left: 60px;
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+    </style>
+</head>
+<body>
+
+    
+    
+<div class="navbar">
+    <div class="item" id="logo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5_DyywyTQDUDpVZokQdDKROg4R__1-cbl8A&usqp=CAU" alt=""></div>
+    <div class="item" id="Movie">Movie</div>
+    <div class="item" id="Sports">Sports</div>
+    <div class="item" id="Disnep">Disnep+</div>
+    <div class="item" id="kids"> kids </div>
+
+
+    <div class="rightitem">
+   
+
+         <input class="inpu_color" type="text" name="" id="movie_name" placeholder="Search">
+         <button onclick="getmovie()">Search</button>
+
+         <div class="item" id="login">Login</div>
+    </div>
+</div>
+
+
+
+
+<div id="movie_div"></div>
+
+<div class="hitmovies">Hit Movies</div>
+
+<div id="container_movie"></div>
+
+
+</body>
+</html>
+
+
+<script>
+
+    let data_div = document.getElementById("movie_div");
+
+    async function getmovie(){
+
+
+        try{
+
+            let movie_name = document.getElementById("movie_name").value;
+
+            let responce = await fetch(`http://www.omdbapi.com/?t=${movie_name}&apikey=e1473620`)
+
+            let data = await responce.json();
+
+
+            showmovie(data)
+            
+            console.log("data:",data);
+
+        }catch(err){
+
+         console.log("error:",err)
+}
+
+
+        }
+
+
+
+        function showmovie(movie){
+
+            data_div.textContent = " ";
+
+
+       if(movie.Response == 'False'){
+        
+        let error_img = document.createElement("img")
+        error_img.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1U-fzbIq8W3EKClK4jZSXEkaeWKcX4aGIQ&usqp=CAU'
+
+        error_img.style.height = "350px"
+
+        data_div.append(error_img)
+
+        console.log(data_div)
+
+       }
+
+
+
+      else{
+
+
+            let img = document.createElement("img");
+            img.src = movie.Poster;
+
+             let Title = document.createElement("h2")
+             Title.setAttribute("class", "Title")
+            Title.innerHTML = `Movie  : ${ movie.Title }`
+
+
+          //  let errorimg = document.createElement("img")                                            //
+           // errorimg.src = "https://blog.fluidui.com/content/images/2019/01/imageedit_1_9273372713.png"
+           //if( !Title){
+            //let errorimg = document.createElement("img")
+
+           // errorimg.src = "https://blog.fluidui.com/content/images/2019/01/imageedit_1_9273372713.png"
+
+            
+
+
+          // }
+
+            
+            
+            let recom = document.createElement("h3");
+
+
+
+
+
+            let Actors = document.createElement("p")
+            Actors.setAttribute("class", "Title")
+            Actors.innerText = `Actors  : ${movie.Actors}`;
+
+
+            let Released = document.createElement("p")
+            Released.setAttribute("class","Title")
+            Released.innerHTML =`Realesed : ${movie.Released}`;
+
+
+
+            let language = document.createElement("p")
+            language.setAttribute("class", "Title")
+            language.innerText = `Language : ${movie.Language}`
+
+
+           let imdbRating = document.createElement("p")
+           imdbRating.setAttribute("class", "Title")
+           imdbRating.textContent = `Rating : ${movie.imdbRating}`
+        
+
+
+          // let checkimdb = Number(imdbRating.textContent);
+          if (movie.imdbRating > 8.5) {
+        
+         let Recommendate = document.createElement("p")
+         Recommendate.setAttribute ("class", "Recommendate")
+         Recommendate.innerText = "Recommed movie"
+
+         data_div.append(img,Title, Actors,language, Released,recom,imdbRating, Recommendate)
+
+         }
+
+          else{
+
+          
+   
+
+           
+            data_div.append(img,Title, Actors, language,Released,recom,imdbRating,)
+
+        }
+
+    }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ////
+
+
+
+
+
+
+        var data = [
+    {
+      
+      name: "MIRZAPUR",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHVI8dxexBKnL9NKcU8dndbDs0e83PBWwv8A&usqp=CAU",
+    
+      
+    },
+    {
+      
+      name: "UNBORN",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR92aB8AvsbtQLaQtr_uRgV2_Ud_NSJkZe_iQ&usqp=CAU",
+      
+    },
+    {
+      
+      name: "ANTIM",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1_mOggMs2MRO-qK-bUv5UM5eJuK0zbvyutw&usqp=CAU",
+      
+    },
+    {
+      
+        name: "TERA SUROOR",
+        image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSE2fJvOSJuliEScvYneWwLKs9kuWdzfNA-Q&usqp=CAU",
+        
+      },
+
+      {
+      
+      name: "SOORYANSHI",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD_CTlejdv_cw767-o4DHMGA0xrl93KWobcw&usqp=CAU",
+    
+    },
+    {
+      
+      name: "DILWALE",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQHQ-xuaXqFy1QPDhKdoUloVxj8nUK54rI2Q&usqp=CAU",
+    
+    },
+    {
+      
+      name: "RADHE",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmU67Sl7PmqrFkg96w0jfzzaOf5wL8yGZ44Q&usqp=CAU",
+
+    },
+    {
+      
+        name: "JUST A GIRL",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSu0KdNghAwTrwcVRKDm1ejUBwGOfvSc2G9Q&usqp=CAU",
+    
+      },
+
+
+      {
+      
+      name: "BAAGHI 3",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyJpvdflkQiPrNoJypLjg_ZXTNE_ZnJu5Hvg&usqp=CAU",
+
+    }
+
+   
+    
+  ]
+
+
+  data.map(function(elem){
+      
+      var maindiv = document.createElement("div")
+      maindiv.setAttribute("class", "maindiv")
+  
+      var image = document.createElement("img")
+      image.setAttribute("src",elem.image)
+  
+      var smalldiv = document.createElement("div")
+      smalldiv.setAttribute("class","maindiv")
+  
+   // var name = document.createElement("h3")
+   // name.textContent = elem.name;
+  
+      
+   
+  
+  
+      smalldiv.append(name)
+      maindiv.append(image,smalldiv)
+  
+      document.getElementById("container_movie").append(maindiv)
+  
+  
+    })
+    
+</script>
